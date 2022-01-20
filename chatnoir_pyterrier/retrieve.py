@@ -78,30 +78,33 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         else:
             page_size = self.page_size
 
-        index: Set[Index]
-        if isinstance(self.index, Index):
-            index = {self.index}
+        features: Feature
+        if isinstance(self.features, Set):
+            features = reduce(
+                lambda feature_a, feature_b: feature_a | feature_b,
+                self.features
+            )
         else:
-            index = self.index
+            features = self.features
 
-        print(self.num_results, page_size)
+        explain: bool = Feature.EXPLANATION in features
 
         results: Union[Iterable[SearchResult], Iterable[PhraseSearchResult]]
         if not self.phrases:
             results = search(
                 api_key=self.api_key,
                 query=query,
-                index=index,
-                explain=False,
+                index=self.index,
+                explain=explain,
                 page_size=page_size,
             )
         else:
             results = search_phrases(
                 api_key=self.api_key,
                 query=query,
-                index=index,
+                index=self.index,
                 slop=self.slop,
-                explain=False,
+                explain=explain,
                 page_size=page_size,
             )
 
