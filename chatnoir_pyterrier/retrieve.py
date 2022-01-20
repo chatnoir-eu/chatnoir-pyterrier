@@ -5,10 +5,12 @@ from itertools import islice
 from typing import Set, Optional, Iterable, Union, Any, Dict
 
 from chatnoir_api import Index
-from chatnoir_api.constants import DEFAULT_INDICES
 from chatnoir_api.model import Slop
 from chatnoir_api.model.result import SearchResult, PhraseSearchResult
-from chatnoir_api.v1 import search, search_phrases
+from chatnoir_api.v1 import (
+    search, search_phrases, DEFAULT_INDEX, DEFAULT_RETRIES,
+    DEFAULT_BACKOFF_SECONDS, DEFAULT_SLOP
+)
 from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
 from pyterrier.batchretrieve import BatchRetrieveBase
@@ -48,12 +50,16 @@ class ChatNoirRetrieve(BatchRetrieveBase):
 
     api_key: str
     index: Union[Index, Set[Index]] = field(
-        default_factory=lambda: DEFAULT_INDICES,
+        default_factory=lambda: DEFAULT_INDEX,
     )
     phrases: bool = False
-    slop: Slop = 0
+    slop: Slop = DEFAULT_SLOP
+    features: Union[Feature, Set[Feature]] = Feature.NONE
+    filter_unknown: bool = False
     num_results: Optional[int] = 10
     page_size: int = 100
+    retries: int = DEFAULT_RETRIES
+    backoff_seconds: float = DEFAULT_BACKOFF_SECONDS
     verbose: bool = False
 
     def __post_init__(self):
