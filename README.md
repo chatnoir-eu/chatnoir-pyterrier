@@ -20,11 +20,13 @@ pip install chatnoir-pyterrier
 ## Usage
 
 ```python
-from chatnoir.pyterrier import TODO
+from chatnoir_pyterrier.retrieve import ChatNoirRetrieve
 
 api_key: str = "<API_KEY>"
+chatnoir = ChatNoirRetrieve(api_key)
 
-TODO
+# Use PyTerrier functions like with BatchRetrieve.
+chatnoir.search("python library")
 ```
 
 ## Citation
@@ -81,11 +83,11 @@ pylint -E chatnoir_pyterrier examples
 pytest chatnoir_pyterrier examples
 ```
 
-Please also add tests for the axioms or integrations you've added.
+Please also add tests for your newly developed code.
 
-### Build wheel
+### Build wheels
 
-A wheel for this package can be built by:
+Wheels for this package can be built by:
 
 ```shell
 python -m build
