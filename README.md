@@ -1,26 +1,26 @@
-[![PyPi](https://img.shields.io/pypi/v/chatnoir-pyserini?style=flat-square)](https://pypi.org/project/chatnoir-pyserini/)
-[![CI](https://img.shields.io/github/workflow/status/heinrichreimer/chatnoir-pyserini/CI?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyserini/actions?query=workflow%3A"CI")
-[![Code coverage](https://img.shields.io/codecov/c/github/heinrichreimer/chatnoir-pyserini?style=flat-square)](https://codecov.io/github/heinrichreimer/chatnoir-pyserini/)
-[![Python](https://img.shields.io/pypi/pyversions/chatnoir-pyserini?style=flat-square)](https://pypi.org/project/chatnoir-pyserini/)
-[![Issues](https://img.shields.io/github/issues/heinrichreimer/chatnoir-pyserini?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyserini/issues)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/heinrichreimer/chatnoir-pyserini?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyserini/commits)
-[![Downloads](https://img.shields.io/pypi/dm/chatnoir-pyserini?style=flat-square)](https://pypi.org/project/chatnoir-pyserini/)
-[![License](https://img.shields.io/github/license/heinrichreimer/chatnoir-pyserini?style=flat-square)](LICENSE)
+[![PyPi](https://img.shields.io/pypi/v/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
+[![CI](https://img.shields.io/github/workflow/status/heinrichreimer/chatnoir-pyterrier/CI?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/actions?query=workflow%3A"CI")
+[![Code coverage](https://img.shields.io/codecov/c/github/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://codecov.io/github/heinrichreimer/chatnoir-pyterrier/)
+[![Python](https://img.shields.io/pypi/pyversions/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
+[![Issues](https://img.shields.io/github/issues/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/issues)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/commits)
+[![Downloads](https://img.shields.io/pypi/dm/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
+[![License](https://img.shields.io/github/license/heinrichreimer/chatnoir-pyterrier?style=flat-square)](LICENSE)
 
-# 🔍 chatnoir-pyserini
+# 🔍 chatnoir-pyterrier
 
 Use the ChatNoir search engine in PyTerrier. 
 
 ## Installation
 
 ```shell
-pip install chatnoir-pyserini
+pip install chatnoir-pyterrier
 ```
 
 ## Usage
 
 ```python
-from chatnoir.pyserini import TODO
+from chatnoir.pyterrier import TODO
 
 api_key: str = "<API_KEY>"
 
