@@ -65,6 +65,44 @@ class ChatNoirRetrieve(BatchRetrieveBase):
     def __post_init__(self):
         super().__init__(verbose=self.verbose)
 
+    def _merge_result(
+            self,
+            row: Dict[str, Any],
+            result: Union[SearchResult, PhraseSearchResult]
+    ) -> Dict[str, Any]:
+        row = {
+            **row,
+            "docno": result.trec_id,
+            "score": result.score,
+        }
+        if Feature.UUID in self.features:
+            row["uuid"] = result.uuid
+        if Feature.INDEX in self.features:
+            row["index"] = result.index.value
+        if Feature.TARGET_HOSTNAME in self.features:
+            row["target_hostname"] = result.target_hostname
+        if Feature.TARGET_URI in self.features:
+            row["target_uri"] = result.target_uri
+        if Feature.PAGE_RANK in self.features:
+            row["page_rank"] = result.page_rank
+        if Feature.SPAM_RANK in self.features:
+            row["spam_rank"] = result.spam_rank
+        if Feature.TITLE_HIGHLIGHTED in self.features:
+            row["title_highlighted"] = result.title.html
+        if Feature.TITLE_TEXT in self.features:
+            row["title_text"] = result.title.text
+        if Feature.SNIPPET_HIGHLIGHTED in self.features:
+            row["snippet_highlighted"] = result.snippet.html
+        if Feature.SNIPPET_TEXT in self.features:
+            row["snippet_text"] = result.snippet.text
+        if Feature.EXPLANATION in self.features:
+            row["explanation"] = result.explanation
+        if Feature.HTML in self.features:
+            row["html"] = result.html_contents(plain=False)
+        if Feature.HTML_PLAIN in self.features:
+            row["html_plain"] = result.html_contents(plain=True)
+        return row
+
     def _transform_query(self, topic: DataFrame) -> DataFrame:
         if len(topic.index) != 1:
             raise RuntimeError("Can only transform one query at a time.")
@@ -112,11 +150,7 @@ class ChatNoirRetrieve(BatchRetrieveBase):
             results = islice(results, self.num_results)
 
         return DataFrame([
-            {
-                **row,
-                "docno": result.trec_id,
-                "score": result.score,
-            }
+            self._merge_result(row, result)
             for result in results
         ])
 
