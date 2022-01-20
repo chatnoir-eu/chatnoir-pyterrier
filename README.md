@@ -2,6 +2,7 @@
 [![CI](https://img.shields.io/github/workflow/status/heinrichreimer/chatnoir-pyterrier/CI?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/actions?query=workflow%3A"CI")
 [![Code coverage](https://img.shields.io/codecov/c/github/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://codecov.io/github/heinrichreimer/chatnoir-pyterrier/)
 [![Python](https://img.shields.io/pypi/pyversions/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
+[![Google Colab](https://img.shields.io/badge/example-open%20in%20colab-informational?style=flat-square)](https://colab.research.google.com/github/heinrichreimer/chatnoir-pyterrier/blob/main/examples/search.ipynb)
 [![Issues](https://img.shields.io/github/issues/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/issues)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/heinrichreimer/chatnoir-pyterrier?style=flat-square)](https://github.com/heinrichreimer/chatnoir-pyterrier/commits)
 [![Downloads](https://img.shields.io/pypi/dm/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
@@ -28,6 +29,8 @@ chatnoir = ChatNoirRetrieve(api_key)
 # Use PyTerrier functions like with BatchRetrieve.
 chatnoir.search("python library")
 ```
+
+Also, check out the [sample notebook](examples/search.ipynb) or [open it in Google Colab](https://colab.research.google.com/github/heinrichreimer/chatnoir-pyterrier/blob/main/examples/search.ipynb).
 
 ## Citation
 
