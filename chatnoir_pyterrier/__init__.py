@@ -1,5 +1,6 @@
 __version__ = "0.1.0"
 
+from dataclasses import dataclass, field
 from itertools import islice
 from logging import getLogger
 from typing import Set, Optional, Iterable, Union
@@ -18,34 +19,20 @@ from tqdm import tqdm
 logger = getLogger("chatnoir-pyterrier")
 
 
+@dataclass
 class ChatNoirRetrieve(BatchRetrieveBase):
-    api_key: str
-    index: Set[Index]
-    phrases: bool
-    slop: Slop
-    num_results: int
-    page_size: int
-    verbose: bool
+    name = "ChatNoirRetrieve"
 
-    def __init__(
-            self,
-            api_key: str,
-            index: Set[Index] = DEFAULT_INDICES,
-            phrases: bool = False,
-            slop: Slop = 0,
-            num_results: Optional[int] = 10,
-            page_size: int = 50,
-            verbose: bool = False,
-            **kwargs
-    ):
-        super().__init__(verbose, **kwargs)
-        self.api_key = api_key
-        self.index = index
-        self.phrases = phrases
-        self.slop = slop
-        self.num_results = num_results
-        self.page_size = page_size
-        self.verbose = verbose
+    api_key: str
+    index: Set[Index] = field(default_factory=lambda: DEFAULT_INDICES)
+    phrases: bool = False
+    slop: Slop = 0
+    num_results: Optional[int] = 10
+    page_size: int = 10
+    verbose: bool = False
+
+    def __post_init__(self):
+        super().__init__(verbose=self.verbose)
 
     def _transform_query(self, topics: DataFrame) -> DataFrame:
         assert topics["qid"].nunique() <= 1
