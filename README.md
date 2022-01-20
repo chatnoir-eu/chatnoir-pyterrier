@@ -76,9 +76,9 @@ pip install -e .[test]
 Verify your changes against the test suite to verify.
 
 ```shell
-flake8 chatnoir examples
-pylint -E chatnoir examples
-pytest chatnoir examples
+flake8 chatnoir_pyterrier examples
+pylint -E chatnoir_pyterrier examples
+pytest chatnoir_pyterrier examples
 ```
 
 Please also add tests for the axioms or integrations you've added.
