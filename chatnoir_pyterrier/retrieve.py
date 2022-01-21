@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import unique, auto, Flag
 from functools import reduce
 from itertools import islice
-from typing import Set, Optional, Iterable, Union, Any, Dict
+from typing import Set, Optional, Iterable, Union, Any, Dict, Final
 
 from chatnoir_api import Index
 from chatnoir_api.model import Slop
@@ -196,3 +196,26 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         retrieved = add_ranks(retrieved)
 
         return retrieved
+
+    def __hash__(self):
+        return hash((
+            self.api_key,
+            (
+                tuple(sorted(self.index, key=lambda index: index.name))
+                if isinstance(self.index, Set)
+                else self.index
+            ),
+            self.phrases,
+            self.slop,
+            (
+                list(sorted(self.features))
+                if isinstance(self.features, Set)
+                else self.features
+            ),
+            self.filter_unknown,
+            self.num_results,
+            self.page_size,
+            self.retries,
+            self.backoff_seconds,
+            self.verbose,
+        ))

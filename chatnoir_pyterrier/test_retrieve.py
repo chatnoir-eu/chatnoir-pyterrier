@@ -4,6 +4,12 @@ from pandas import DataFrame
 from chatnoir_pyterrier.retrieve import ChatNoirRetrieve, Feature
 
 
+def test_retrieve_hash(api_key: str):
+    retrieve = ChatNoirRetrieve(api_key)
+    retrieve_hash = hash(retrieve)
+    assert isinstance(retrieve_hash, int)
+
+
 def test_retrieve_query(api_key: str, query: str, index: Index):
     retrieve = ChatNoirRetrieve(
         api_key=api_key,
