@@ -83,7 +83,7 @@ Verify your changes against the test suite to verify.
 ```shell
 flake8 chatnoir_pyterrier examples
 pylint -E chatnoir_pyterrier examples
-pytest chatnoir_pyterrier examples
+CHATNOIR_API_KEY="<API_KEY>" pytest chatnoir_pyterrier examples
 ```
 
 Please also add tests for your newly developed code.
