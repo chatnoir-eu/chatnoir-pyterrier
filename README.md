@@ -10,7 +10,7 @@
 
 # 🔍 chatnoir-pyterrier
 
-Use the ChatNoir search engine in PyTerrier. 
+Use the ChatNoir search engine in PyTerrier. Powered by the [`chatnoir-api`](https://pypi.org/project/chatnoir-api/) package.
 
 ## Installation
 
