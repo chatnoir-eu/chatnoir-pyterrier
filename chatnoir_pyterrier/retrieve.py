@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import unique, auto, Flag
 from functools import reduce
 from itertools import islice
-from typing import Set, Optional, Iterable, Union, Any, Dict, Final
+from typing import Set, Optional, Iterable, Union, Any, Dict
 
 from chatnoir_api import Index
 from chatnoir_api.model import Slop
