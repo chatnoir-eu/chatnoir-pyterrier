@@ -127,7 +127,7 @@ class ChatNoirRetrieve(BatchRetrieveBase):
 
         explain: bool = Feature.EXPLANATION in features
 
-        results: Union[Iterable[SearchResult], Iterable[PhraseSearchResult]]
+        results: Iterable[Union[SearchResult, PhraseSearchResult]]
         if not self.phrases:
             results = search(
                 api_key=self.api_key,
@@ -145,6 +145,15 @@ class ChatNoirRetrieve(BatchRetrieveBase):
                 explain=explain,
                 page_size=page_size,
             )
+
+        if self.filter_unknown:
+            # Filter unknown results, i.e., when the TREC ID is missing.
+            results = (
+                result
+                for result in results
+                if result.trec_id is not None
+            )
+            pass
 
         if self.num_results is not None:
             results = islice(results, self.num_results)
