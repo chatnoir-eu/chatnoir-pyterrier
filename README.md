@@ -21,7 +21,7 @@ pip install chatnoir-pyterrier
 ## Usage
 
 ```python
-from chatnoir_pyterrier.retrieve import ChatNoirRetrieve
+from chatnoir_pyterrier import ChatNoirRetrieve
 
 api_key: str = "<API_KEY>"
 chatnoir = ChatNoirRetrieve(api_key)
