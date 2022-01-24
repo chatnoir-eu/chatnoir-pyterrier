@@ -8,8 +8,10 @@ from chatnoir_api import Index
 from chatnoir_api.model import Slop
 from chatnoir_api.model.result import SearchResult, PhraseSearchResult
 from chatnoir_api.v1 import (
-    search, search_phrases, DEFAULT_INDEX, DEFAULT_RETRIES,
-    DEFAULT_BACKOFF_SECONDS, DEFAULT_SLOP
+    search, search_phrases
+)
+from chatnoir_api.v1.defaults import (
+    DEFAULT_INDEX, DEFAULT_SLOP, DEFAULT_RETRIES, DEFAULT_BACKOFF_SECONDS
 )
 from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
