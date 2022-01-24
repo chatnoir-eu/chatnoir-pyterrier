@@ -60,7 +60,7 @@ jobs:
           pip install -e .
           pip install -e .[test]
       - name: "🔍 Check Python code format"
-        run: flake8 chatnoir_pyterrier examples
+        run: flake8 chatnoir_pyterrier examples tests
   lint:
     name: "🔍 Python Lint"
     needs:
@@ -89,7 +89,7 @@ jobs:
           pip install -e .
           pip install -e .[test]
       - name: "🔍 Lint Python code"
-        run: pylint -E chatnoir_pyterrier examples
+        run: pylint -E chatnoir_pyterrier examples tests
   unit-tests:
     name: "🧪 Python unit tests"
     needs:
@@ -120,7 +120,7 @@ jobs:
       - name: "🧪 Test Python code"
         env:
           CHATNOIR_API_KEY: ${{ secrets.CHATNOIR_API_KEY }}
-        run: pytest chatnoir_pyterrier examples --cov --cov-report=term --cov-report=xml
+        run: pytest chatnoir_pyterrier examples tests --cov --cov-report=term --cov-report=xml
       - name: "📤 Upload test coverage"
         uses: actions/upload-artifact@v2
         with:
