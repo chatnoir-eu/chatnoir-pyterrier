@@ -27,9 +27,11 @@ class Feature(Flag):
     CONTENT = auto()
     CONTENT_PLAIN = auto()
     CONTENT_TYPE = auto()
-    LANGUAGE = auto
+    LANGUAGE = auto()
     ALL = (
             UUID | TREC_ID | INDEX | TARGET | RANKS | TITLE | SNIPPET |
             EXPLANATION | CONTENT | CONTENT_PLAIN
     )
-    ALL_STAGING = ALL | IDS | CRAWL_DATE | CACHE_URI | CONTENT_TYPE | LANGUAGE
+    ALL_STAGING = (
+            ALL | WARC_ID | CRAWL_DATE | CACHE_URI | CONTENT_TYPE | LANGUAGE
+    )
