@@ -1,5 +1,6 @@
 from chatnoir_api import Index
 from pandas import DataFrame
+from pytest import skip
 
 from chatnoir_pyterrier.retrieve import ChatNoirRetrieve, Feature
 
@@ -32,6 +33,13 @@ def test_retrieve_feature(
         feature: Feature,
         staging: bool,
 ):
+    if (staging and Feature.CONTENT_PLAIN in feature and
+            query == "python library"):
+        # FIXME: There is a server bug when getting the plaintext
+        #  for this query in the staging environment:
+        #  https://chatnoir-webcontent.web.webis.de/?index=cw12&uuid=hyAJmJvTUkC2JP6mCz6Amw&plain&raw
+        skip("Server bug for cached document.")
+
     retrieve = ChatNoirRetrieve(
         api_key=api_key,
         features=feature,
