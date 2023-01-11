@@ -1,4 +1,6 @@
-__version__ = "1.0.2"
+from importlib_metadata import version
+
+__version__ = version("chatnoir-api")
 
 from logging import getLogger
 
