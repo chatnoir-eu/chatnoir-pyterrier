@@ -10,27 +10,34 @@
 
 # 🔍 chatnoir-pyterrier
 
-Use the ChatNoir search engine in PyTerrier. Powered by the [`chatnoir-api`](https://pypi.org/project/chatnoir-api/) package.
+Use the ChatNoir search engine in PyTerrier.
+
+Powered by the [`chatnoir-api`](https://pypi.org/project/chatnoir-api/) package.
 
 ## Installation
+Install the package from PyPI:
 
 ```shell
 pip install chatnoir-pyterrier
 ```
 
 ## Usage
+You can use the `ChatNoirRetrieve` PyTerrier module in any PyTerrier pipeline, like you would do with `BatchRetrieve`.
 
 ```python
 from chatnoir_pyterrier import ChatNoirRetrieve
 
 api_key: str = "<API_KEY>"
 chatnoir = ChatNoirRetrieve(api_key)
-
-# Use PyTerrier functions like with BatchRetrieve.
 chatnoir.search("python library")
 ```
 
-Also, check out the [sample notebook](examples/search.ipynb) or [open it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search.ipynb).
+Please check out our [sample notebook](examples/search.ipynb) or [open it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search.ipynb).
+
+### Touché 2023
+Are you participating in Touché 2023 [task 1](https://touche.webis.de/clef23/touche23-web/argument-retrieval-for-controversial-questions.html) or [task 2](https://touche.webis.de/clef23/touche23-web/evidence-retrieval-for-causal-questions.html)?
+We've prepared a [sample notebook](examples/search_touche_2023.ipynb) to show you how to retrieve from the ClueWeb22.
+Get started by [opening it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search_touche_2023.ipynb).
 
 ## Citation
 
