@@ -3,9 +3,9 @@ from functools import reduce
 from itertools import islice
 from typing import Set, Optional, Iterable, Union, Any, Dict
 
-from chatnoir_api import Index
-from chatnoir_api.model import Slop
-from chatnoir_api.model.result import SearchResult, PhraseSearchResult
+from chatnoir_api import Index, Result, Slop, MinimalResult, ExplainedResult, \
+    MinimalResultStaging, ResultStaging, ExplainedMinimalResult, \
+    ExplainedMinimalResultStaging, ExplainedResultStaging
 from chatnoir_api.v1 import (
     search, search_phrases
 )
@@ -34,6 +34,7 @@ class ChatNoirRetrieve(BatchRetrieveBase):
     features: Union[Feature, Set[Feature]] = Feature.NONE
     filter_unknown: bool = False
     num_results: Optional[int] = 10
+    staging: bool = False
     page_size: int = 100
     retries: int = DEFAULT_RETRIES
     backoff_seconds: float = DEFAULT_BACKOFF_SECONDS
@@ -45,7 +46,12 @@ class ChatNoirRetrieve(BatchRetrieveBase):
     def _merge_result(
             self,
             row: Dict[str, Any],
-            result: Union[SearchResult, PhraseSearchResult]
+            result: Union[
+                MinimalResult, ExplainedMinimalResult,
+                Result, ExplainedResult,
+                MinimalResultStaging, ExplainedMinimalResultStaging,
+                ResultStaging, ExplainedResultStaging,
+            ]
     ) -> Dict[str, Any]:
         row = {
             **row,
@@ -75,9 +81,9 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         if Feature.EXPLANATION in self.features:
             row["explanation"] = result.explanation
         if Feature.HTML in self.features:
-            row["html"] = result.html_contents(plain=False)
+            row["html"] = result.cache_contents(plain=False)
         if Feature.HTML_PLAIN in self.features:
-            row["html_plain"] = result.html_contents(plain=True)
+            row["html_plain"] = result.cache_contents(plain=True)
         return row
 
     def _transform_query(self, topic: DataFrame) -> DataFrame:
@@ -104,15 +110,22 @@ class ChatNoirRetrieve(BatchRetrieveBase):
 
         explain: bool = Feature.EXPLANATION in features
 
-        results: Iterable[Union[SearchResult, PhraseSearchResult]]
+        results: Iterable[Union[
+            MinimalResult, ExplainedMinimalResult,
+            Result, ExplainedResult,
+            MinimalResultStaging, ExplainedMinimalResultStaging,
+            ResultStaging, ExplainedResultStaging,
+        ]]
         if not self.phrases:
             results = search(
                 api_key=self.api_key,
                 query=query,
                 index=self.index,
+                minimal=False,
                 explain=explain,
+                staging=self.staging,
                 page_size=page_size,
-            )
+            ).results
         else:
             results = search_phrases(
                 api_key=self.api_key,
@@ -120,8 +133,9 @@ class ChatNoirRetrieve(BatchRetrieveBase):
                 index=self.index,
                 slop=self.slop,
                 explain=explain,
+                staging=self.staging,
                 page_size=page_size,
-            )
+            ).results
 
         if self.filter_unknown:
             # Filter unknown results, i.e., when the TREC ID is missing.
@@ -156,20 +170,22 @@ class ChatNoirRetrieve(BatchRetrieveBase):
             as_index=False,
             sort=False,
         )
+
+        retrieved: DataFrame
         if self.verbose:
             # Show progress during reranking queries.
             tqdm.pandas(
                 desc="Searching with ChatNoir",
                 unit="query",
             )
-            topics_by_query = topics_by_query.progress_apply(
+            retrieved = topics_by_query.progress_apply(
                 self._transform_query
             )
         else:
-            topics_by_query = topics_by_query.apply(self._transform_query)
+            retrieved = topics_by_query.apply(self._transform_query)
 
-        retrieved: DataFrame = topics_by_query.reset_index(drop=True)
-        retrieved.sort_values(by=["score"], ascending=False)
+        retrieved = retrieved.reset_index(drop=True)\
+            .sort_values(by=["score"], ascending=False)
         retrieved = add_ranks(retrieved)
 
         return retrieved
