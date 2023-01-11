@@ -57,5 +57,10 @@ def index(request, staging: bool) -> Index:
 
 
 @fixture(scope="module", params=[feature for feature in Feature])
-def feature(request) -> Feature:
+def feature(request, staging: bool) -> Feature:
+    if not staging and request.param not in Feature.ALL:
+        skip(
+            f"Feature {request.param.name} is not available "
+            f"on the production API."
+        )
     return request.param
