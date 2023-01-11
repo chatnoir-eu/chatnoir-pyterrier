@@ -41,14 +41,23 @@ def test_retrieve_feature(
     result = retrieve.search(query)
     assert result is not None
     assert isinstance(result, DataFrame)
+
     if Feature.UUID in feature:
         assert "uuid" in result.columns
+    if Feature.TREC_ID in feature:
+        assert "trec_id" in result.columns
+    if Feature.WARC_ID in feature:
+        assert "warc_id" in result.columns
     if Feature.INDEX in feature:
         assert "index" in result.columns
+    if Feature.CRAWL_DATE in feature:
+        assert "crawl_date" in result.columns
     if Feature.TARGET_HOSTNAME in feature:
         assert "target_hostname" in result.columns
     if Feature.TARGET_URI in feature:
         assert "target_uri" in result.columns
+    if Feature.CACHE_URI in feature:
+        assert "cache_uri" in result.columns
     if Feature.PAGE_RANK in feature:
         assert "page_rank" in result.columns
     if Feature.SPAM_RANK in feature:
@@ -63,7 +72,11 @@ def test_retrieve_feature(
         assert "snippet_text" in result.columns
     if Feature.EXPLANATION in feature:
         assert "explanation" in result.columns
-    if Feature.HTML in feature:
+    if Feature.CONTENT in feature:
         assert "html" in result.columns
-    if Feature.HTML_PLAIN in feature:
+    if Feature.CONTENT_PLAIN in feature:
         assert "html_plain" in result.columns
+    if Feature.CONTENT_TYPE in feature:
+        assert "html_plain" in result.columns
+    if Feature.LANGUAGE in feature:
+        assert "language" in result.columns
