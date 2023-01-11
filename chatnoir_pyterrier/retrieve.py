@@ -60,12 +60,20 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         }
         if Feature.UUID in self.features:
             row["uuid"] = result.uuid
+        if Feature.TREC_ID in self.features:
+            row["trec_id"] = result.trec_id
+        if Feature.WARC_ID in self.features:
+            row["warc_id"] = result.warc_id
         if Feature.INDEX in self.features:
             row["index"] = result.index.value
+        if Feature.CRAWL_DATE in self.features:
+            row["crawl_date"] = result.crawl_date
         if Feature.TARGET_HOSTNAME in self.features:
             row["target_hostname"] = result.target_hostname
         if Feature.TARGET_URI in self.features:
             row["target_uri"] = result.target_uri
+        if Feature.CACHE_URI in self.features:
+            row["cache_uri"] = result.cache_uri
         if Feature.PAGE_RANK in self.features:
             row["page_rank"] = result.page_rank
         if Feature.SPAM_RANK in self.features:
@@ -80,10 +88,14 @@ class ChatNoirRetrieve(BatchRetrieveBase):
             row["snippet_text"] = result.snippet.text
         if Feature.EXPLANATION in self.features:
             row["explanation"] = result.explanation
-        if Feature.HTML in self.features:
+        if Feature.CONTENT in self.features:
             row["html"] = result.cache_contents(plain=False)
-        if Feature.HTML_PLAIN in self.features:
+        if Feature.CONTENT_PLAIN in self.features:
             row["html_plain"] = result.cache_contents(plain=True)
+        if Feature.CONTENT_TYPE in self.features:
+            row["html_plain"] = result.content_type
+        if Feature.LANGUAGE in self.features:
+            row["language"] = result.language
         return row
 
     def _transform_query(self, topic: DataFrame) -> DataFrame:
