@@ -145,6 +145,7 @@ class ChatNoirRetrieve(BatchRetrieveBase):
                 api_key=self.api_key,
                 query=query,
                 index=self.index,
+                minimal=False,
                 slop=self.slop,
                 explain=explain,
                 staging=self.staging,
