@@ -137,6 +137,8 @@ class ChatNoirRetrieve(BatchRetrieveBase):
                 explain=explain,
                 staging=self.staging,
                 page_size=page_size,
+                retries=self.retries,
+                backoff_seconds=self.backoff_seconds,
             ).results
         else:
             results = search_phrases(
@@ -147,6 +149,8 @@ class ChatNoirRetrieve(BatchRetrieveBase):
                 explain=explain,
                 staging=self.staging,
                 page_size=page_size,
+                retries=self.retries,
+                backoff_seconds=self.backoff_seconds,
             ).results
 
         if self.filter_unknown:
