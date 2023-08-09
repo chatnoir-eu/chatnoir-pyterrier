@@ -1,5 +1,62 @@
+[project]
+name = "chatnoir-pyterrier"
+authors = [
+    {name = "Jan Heinrich Reimer", email = "heinrich.reimer@uni-jena.de"},
+]
+description = "Use the ChatNoir search engine in PyTerrier."
+readme = "README.md"
+requires-python = ">=3.7,<3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "chatnoir-api~=2.0",
+    "importlib-metadata~=4.0",
+    "pandas~=1.2",
+    "python-terrier~=0.9.2",
+    "pyjnius~=1.4",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test =[
+    "flake8~=5.0",
+    "jupyter~=1.0",
+    "pylint~=2.12",
+    "pytest~=7.2",
+    "pytest-cov~=4.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/chatnoir-eu/chatnoir-pyterrier"
+"Bug Tracker" = "https://github.com/chatnoir-eu/chatnoir-pyterrier/issues"
+
 [build-system]
 requires = ["setuptools>=50", "setuptools_scm[toml]>=6.2", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["chatnoir_pyterrier"]
+namespaces = false
+
+[tool.setuptools.package-data]
+mypkg = ["*.txt", "*.md", "*.rst"]
+
+[tool.pytest.ini_options]
+log_cli = "True"
+filterwarnings = [
+    'ignore::DeprecationWarning',
+]
 
 [tool.setuptools_scm]
