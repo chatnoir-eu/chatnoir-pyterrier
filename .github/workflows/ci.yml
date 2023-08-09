@@ -30,7 +30,7 @@ jobs:
       run: twine check dist/*
     - name: "📤 Upload Python wheels"
       uses: actions/upload-artifact@v3
-      if: matrix.python == '3.11'
+      if: matrix.python == '3.9'
       with:
         name: wheels
         path: dist
