@@ -20,7 +20,7 @@ classifiers = [
 dependencies = [
     "chatnoir-api~=2.0",
     "importlib-metadata~=4.0",
-    "pandas~=1.2",
+    "pandas>=1.2,<3.0",
     "python-terrier~=0.9.2",
     "pyjnius~=1.4",
 ]
