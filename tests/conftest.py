@@ -58,9 +58,21 @@ def index(request, staging: bool) -> Index:
 
 @fixture(scope="module", params=[feature for feature in Feature])
 def feature(request, staging: bool) -> Feature:
+    if staging and request.param not in Feature.ALL_STAGING:
+        skip(
+            f"Feature {request.param.name} is not available "
+            f"on the staging API."
+        )
     if not staging and request.param not in Feature.ALL:
         skip(
             f"Feature {request.param.name} is not available "
             f"on the production API."
+        )
+    if staging and request.param in (
+        Feature.CONTENT | Feature.CONTENT_PLAIN
+    ):
+        skip(
+            f"Feature {request.param.name} is too slow "
+            f"on the staging API."
         )
     return request.param
