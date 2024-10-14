@@ -1,7 +1,7 @@
 [project]
 name = "chatnoir-pyterrier"
 authors = [
-    {name = "Jan Heinrich Reimer", email = "heinrich.reimer@uni-jena.de"},
+    {name = "Jan Heinrich Merker", email = "heinrich.merker@uni-jena.de"},
 ]
 description = "Use the ChatNoir search engine in PyTerrier."
 readme = "README.md"
