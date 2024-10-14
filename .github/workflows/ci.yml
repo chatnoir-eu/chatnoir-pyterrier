@@ -9,9 +9,11 @@ jobs:
     strategy:
       matrix:
         python:
-        - '3.7'
         - '3.8'
         - '3.9'
+        - '3.10'
+        - '3.11'
+        - '3.12'
     runs-on: ubuntu-latest
     steps:
     - name: 📥 Check-out
@@ -30,7 +32,7 @@ jobs:
       run: twine check dist/*
     - name: 📤 Upload Python wheels
       uses: actions/upload-artifact@v4
-      if: matrix.python == '3.9'
+      if: matrix.python == '3.12'
       with:
         name: wheels
         path: dist
@@ -39,9 +41,11 @@ jobs:
     strategy:
       matrix:
         python:
-        - '3.7'
         - '3.8'
         - '3.9'
+        - '3.10'
+        - '3.11'
+        - '3.12'
     runs-on: ubuntu-latest
     steps:
     - name: 📥 Check-out
@@ -61,9 +65,11 @@ jobs:
     strategy:
       matrix:
         python:
-        - '3.7'
         - '3.8'
         - '3.9'
+        - '3.10'
+        - '3.11'
+        - '3.12'
     runs-on: ubuntu-latest
     steps:
     - name: 📥 Check-out
@@ -83,8 +89,11 @@ jobs:
     strategy:
       matrix:
         python:
-        - '3.7'
-        - '3.9'
+        #- '3.8'
+        #- '3.9'
+        #- '3.10'
+        #- '3.11'
+        - '3.12'
     runs-on: ubuntu-latest
     steps:
     - name: 📥 Check-out
@@ -104,7 +113,7 @@ jobs:
       run: pytest --cov --cov-report=xml chatnoir_pyterrier tests examples
     - name: 📤 Upload coverage to Codecov
       uses: codecov/codecov-action@v4
-      if: matrix.python == '3.9'
+      if: matrix.python == '3.12'
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
   python-publish:
