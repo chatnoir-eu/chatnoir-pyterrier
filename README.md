@@ -10,7 +10,7 @@
 
 # 🔍 chatnoir-pyterrier
 
-Use the ChatNoir search engine in PyTerrier.
+Use the ChatNoir REST-API in PyTerrier for retrieval/re-ranking against large corpora such as ClueWeb09, ClueWeb12, ClueWeb22, or MS MARCO.
 
 Powered by the [`chatnoir-api`](https://pypi.org/project/chatnoir-api/) package.
 

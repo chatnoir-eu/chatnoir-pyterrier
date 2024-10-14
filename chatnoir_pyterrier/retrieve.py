@@ -201,6 +201,8 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         else:
             retrieved = topics_by_query.apply(self._transform_query)
 
+        if len(retrieved) == 0:
+            return retrieved
         retrieved = retrieved.reset_index(drop=True)\
             .sort_values(by=["score"], ascending=False)
         retrieved = add_ranks(retrieved)

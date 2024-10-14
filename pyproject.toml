@@ -5,13 +5,16 @@ authors = [
 ]
 description = "Use the ChatNoir search engine in PyTerrier."
 readme = "README.md"
-requires-python = ">=3.7,<3.10"
+requires-python = ">=3.7,<3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
@@ -19,20 +22,20 @@ classifiers = [
 ]
 dependencies = [
     "chatnoir-api~=2.0",
-    "importlib-metadata~=4.0",
-    "pandas~=1.2",
-    "python-terrier~=0.9.2",
+    "importlib-metadata>=4,<9",
+    "pandas>=1.2,<3.0",
+    "python-terrier>=0.9.2,<0.12.0",
     "pyjnius~=1.4",
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 test =[
-    "flake8~=5.0",
+    "flake8>=5,<8",
     "jupyter~=1.0",
-    "pylint~=2.12",
-    "pytest~=7.2",
-    "pytest-cov~=4.0",
+    "pylint>=2.12,<4.0",
+    "pytest>=7.2,<9.0",
+    "pytest-cov>=4,<6",
 ]
 
 [project.urls]
