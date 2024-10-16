@@ -26,9 +26,9 @@ You can use the `ChatNoirRetrieve` PyTerrier module in any PyTerrier pipeline, l
 
 ```python
 from chatnoir_pyterrier import ChatNoirRetrieve
+from chatnoir_api import Index
 
-api_key: str = "<API_KEY>"
-chatnoir = ChatNoirRetrieve(api_key)
+chatnoir = ChatNoirRetrieve(staging=True, num_results=5, index=Index.MSMarcoV21, features=Feature.SNIPPET_TEXT)
 chatnoir.search("python library")
 ```
 
