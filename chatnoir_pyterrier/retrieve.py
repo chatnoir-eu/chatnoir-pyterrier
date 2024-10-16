@@ -20,12 +20,14 @@ from tqdm import tqdm
 
 from chatnoir_pyterrier.feature import Feature
 
+# This API key has a small public request budget, if you want to use ChatNoir more extensively, please consider to create a dedicated API key at https://chatnoir.web.webis.de/apikey/
+PUBLIC_API_KEY = "LTmnNLQeQvBlNjwWeuNxz1vdya3HpSzN"
 
 @dataclass
 class ChatNoirRetrieve(BatchRetrieveBase):
     name = "ChatNoirRetrieve"
 
-    api_key: str
+    api_key: str = PUBLIC_API_KEY
     index: Union[Index, Set[Index]] = field(
         default_factory=lambda: DEFAULT_INDEX,
     )
