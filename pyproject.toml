@@ -5,11 +5,10 @@ authors = [
 ]
 description = "Use the ChatNoir search engine in PyTerrier."
 readme = "README.md"
-requires-python = ">=3.7,<3.13"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -21,21 +20,23 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-    "chatnoir-api~=2.0",
-    "importlib-metadata>=4,<9",
-    "pandas>=1.2,<3.0",
-    "python-terrier>=0.9.2,<0.12.0",
+    "chatnoir-api~=3.1",
+    "importlib-metadata~=8.5",
+    "pandas~=2.2",
+    "python-terrier~=0.11.0",
     "pyjnius~=1.4",
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test =[
-    "flake8>=5,<8",
+tests =[
+    "bandit[toml]~=1.7",
     "jupyter~=1.0",
-    "pylint>=2.12,<4.0",
-    "pytest>=7.2,<9.0",
-    "pytest-cov>=4,<6",
+    "mypy~=1.13",
+    "pytest~=8.3",
+    "pytest-cov~=5.0",
+    "ruff~=0.7.1",
+    "types-requests~=2.32",
 ]
 
 [project.urls]
@@ -50,11 +51,35 @@ build-backend = "setuptools.build_meta"
 include-package-data = true
 
 [tool.setuptools.packages.find]
-include = ["chatnoir_pyterrier"]
-namespaces = false
+exclude = [
+    "build",
+    "venv",
+    ".venv",
+    ".github",
+]
 
 [tool.setuptools.package-data]
-mypkg = ["*.txt", "*.md", "*.rst"]
+"*" = ["*.txt", "*.md", "*.rst"]
+
+[tool.mypy]
+exclude = [
+    "build",
+    "venv",
+    ".venv",
+    ".github",
+]
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = [
+    "build",
+    "venv",
+    ".venv",
+    ".github",
+]
+
+[tool.bandit.assert_used]
+skips = ["**/test_*.py", "**/conftest.py"]
 
 [tool.pytest.ini_options]
 log_cli = "True"
