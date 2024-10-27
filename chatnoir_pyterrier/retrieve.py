@@ -81,11 +81,11 @@ class ChatNoirRetrieve(Transformer):
                 raise RuntimeError(f"Unexpected response type: {type(result)}, expected: {type(ExplainedResult)}")
             row["explanation"] = result.explanation
         if Feature.CONTENT in self.features:
-            row["html"] = result.cache_contents(plain=False)
+            row["contents"] = result.cache_contents(plain=False)
         if Feature.CONTENT_PLAIN in self.features:
-            row["html_plain"] = result.cache_contents(plain=True)
+            row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
         if Feature.CONTENT_TYPE in self.features:
-            row["html_plain"] = result.content_type
+            row["content_type"] = result.content_type
         if Feature.LANGUAGE in self.features:
             row["language"] = result.language
         return row
