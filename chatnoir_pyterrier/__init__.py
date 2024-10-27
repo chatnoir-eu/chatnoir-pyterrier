@@ -1,6 +1,6 @@
 from importlib_metadata import version
 
-__version__ = version("chatnoir-api")
+__version__ = version("chatnoir-pyterrier")
 
 from logging import getLogger
 
