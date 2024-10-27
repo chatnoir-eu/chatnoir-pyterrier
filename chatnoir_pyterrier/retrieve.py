@@ -3,31 +3,25 @@ from functools import reduce
 from itertools import islice
 from typing import Set, Optional, Iterable, Union, Any, Dict
 
-from chatnoir_api import Index, Result, Slop, MinimalResult, ExplainedResult, \
-    MinimalResultStaging, ResultStaging, ExplainedMinimalResult, \
-    ExplainedMinimalResultStaging, ExplainedResultStaging
+from chatnoir_api import Index, Result, Slop, ExplainedResult
 from chatnoir_api.v1 import (
     search, search_phrases
 )
-from chatnoir_api.v1.defaults import (
-    DEFAULT_INDEX, DEFAULT_SLOP, DEFAULT_RETRIES, DEFAULT_BACKOFF_SECONDS
+from chatnoir_api.defaults import (
+    DEFAULT_INDEX, DEFAULT_SLOP, DEFAULT_RETRIES, DEFAULT_BACKOFF_SECONDS, DEFAULT_API_KEY
 )
 from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
-from pyterrier.batchretrieve import BatchRetrieveBase
+from pyterrier import Transformer
 from pyterrier.model import add_ranks
 from tqdm import tqdm
 
 from chatnoir_pyterrier.feature import Feature
 
-# This API key has a small public request budget, if you want to use ChatNoir more extensively, please consider to create a dedicated API key at https://chatnoir.web.webis.de/apikey/
-PUBLIC_API_KEY = "LTmnNLQeQvBlNjwWeuNxz1vdya3HpSzN"
-
 @dataclass
-class ChatNoirRetrieve(BatchRetrieveBase):
+class ChatNoirRetrieve(Transformer):
     name = "ChatNoirRetrieve"
 
-    api_key: str = PUBLIC_API_KEY
     index: Union[Index, Set[Index]] = field(
         default_factory=lambda: DEFAULT_INDEX,
     )
@@ -36,23 +30,17 @@ class ChatNoirRetrieve(BatchRetrieveBase):
     features: Union[Feature, Set[Feature]] = Feature.NONE
     filter_unknown: bool = False
     num_results: Optional[int] = 10
-    staging: bool = False
     page_size: int = 100
     retries: int = DEFAULT_RETRIES
     backoff_seconds: float = DEFAULT_BACKOFF_SECONDS
     verbose: bool = False
-
-    def __post_init__(self):
-        super().__init__(verbose=self.verbose)
+    api_key: str = DEFAULT_API_KEY
 
     def _merge_result(
             self,
             row: Dict[str, Any],
             result: Union[
-                MinimalResult, ExplainedMinimalResult,
                 Result, ExplainedResult,
-                MinimalResultStaging, ExplainedMinimalResultStaging,
-                ResultStaging, ExplainedResultStaging,
             ]
     ) -> Dict[str, Any]:
         row = {
@@ -67,7 +55,7 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         if Feature.WARC_ID in self.features:
             row["warc_id"] = result.warc_id
         if Feature.INDEX in self.features:
-            row["index"] = result.index.value
+            row["index"] = result.index
         if Feature.CRAWL_DATE in self.features:
             row["crawl_date"] = result.crawl_date
         if Feature.TARGET_HOSTNAME in self.features:
@@ -89,6 +77,8 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         if Feature.SNIPPET_TEXT in self.features:
             row["snippet_text"] = result.snippet.text
         if Feature.EXPLANATION in self.features:
+            if not isinstance(result, ExplainedResult):
+                raise RuntimeError(f"Unexpected response type: {type(result)}, expected: {type(ExplainedResult)}")
             row["explanation"] = result.explanation
         if Feature.CONTENT in self.features:
             row["html"] = result.cache_contents(plain=False)
@@ -125,36 +115,60 @@ class ChatNoirRetrieve(BatchRetrieveBase):
         explain: bool = Feature.EXPLANATION in features
 
         results: Iterable[Union[
-            MinimalResult, ExplainedMinimalResult,
             Result, ExplainedResult,
-            MinimalResultStaging, ExplainedMinimalResultStaging,
-            ResultStaging, ExplainedResultStaging,
         ]]
         if not self.phrases:
-            results = search(
-                api_key=self.api_key,
-                query=query,
-                index=self.index,
-                minimal=False,
-                explain=explain,
-                staging=self.staging,
-                page_size=page_size,
-                retries=self.retries,
-                backoff_seconds=self.backoff_seconds,
-            ).results
+            if explain:
+                results = search(
+                    query=query,
+                    index=self.index,
+                    minimal=False,
+                    explain=True,
+                    extended_meta=False,
+                    page_size=page_size,
+                    retries=self.retries,
+                    backoff_seconds=self.backoff_seconds,
+                    api_key=self.api_key,
+                ).results
+            else:
+                results = search(
+                    query=query,
+                    index=self.index,
+                    minimal=False,
+                    explain=False,
+                    extended_meta=False,
+                    page_size=page_size,
+                    retries=self.retries,
+                    backoff_seconds=self.backoff_seconds,
+                    api_key=self.api_key,
+                ).results
         else:
-            results = search_phrases(
-                api_key=self.api_key,
-                query=query,
-                index=self.index,
-                minimal=False,
-                slop=self.slop,
-                explain=explain,
-                staging=self.staging,
-                page_size=page_size,
-                retries=self.retries,
-                backoff_seconds=self.backoff_seconds,
-            ).results
+            if explain:
+                results = search_phrases(
+                    query=query,
+                    index=self.index,
+                    minimal=False,
+                    slop=self.slop,
+                    explain=True,
+                    extended_meta=False,
+                    page_size=page_size,
+                    retries=self.retries,
+                    backoff_seconds=self.backoff_seconds,
+                    api_key=self.api_key,
+                ).results
+            else:
+                results = search_phrases(
+                    query=query,
+                    index=self.index,
+                    minimal=False,
+                    slop=self.slop,
+                    explain=False,
+                    extended_meta=False,
+                    page_size=page_size,
+                    retries=self.retries,
+                    backoff_seconds=self.backoff_seconds,
+                    api_key=self.api_key,
+                ).results
 
         if self.filter_unknown:
             # Filter unknown results, i.e., when the TREC ID is missing.
