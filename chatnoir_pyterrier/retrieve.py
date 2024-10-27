@@ -80,9 +80,9 @@ class ChatNoirRetrieve(Transformer):
             if not isinstance(result, ExplainedResult):
                 raise RuntimeError(f"Unexpected response type: {type(result)}, expected: {type(ExplainedResult)}")
             row["explanation"] = result.explanation
-        if Feature.CONTENT in self.features:
+        if Feature.CONTENTS in self.features:
             row["contents"] = result.cache_contents(plain=False)
-        if Feature.CONTENT_PLAIN in self.features:
+        if Feature.CONTENTS_PLAIN in self.features:
             row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
         if Feature.CONTENT_TYPE in self.features:
             row["content_type"] = result.content_type

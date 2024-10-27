@@ -69,11 +69,12 @@ def test_retrieve_feature(
         assert "snippet_text" in result.columns
     if Feature.EXPLANATION in feature:
         assert "explanation" in result.columns
-    if Feature.CONTENT in feature:
-        assert "html" in result.columns
-    if Feature.CONTENT_PLAIN in feature:
-        assert "html_plain" in result.columns
+    if Feature.CONTENTS in feature:
+        assert "contents" in result.columns
+    if Feature.CONTENTS_PLAIN in feature:
+        assert "contents_plain" in result.columns
+        assert "text" in result.columns
     if Feature.CONTENT_TYPE in feature:
-        assert "html_plain" in result.columns
+        assert "content_type" in result.columns
     if Feature.LANGUAGE in feature:
         assert "language" in result.columns
