@@ -28,13 +28,31 @@ You can use the `ChatNoirRetrieve` PyTerrier module in any PyTerrier pipeline, l
 
 ```python
 from chatnoir_pyterrier import ChatNoirRetrieve, Feature
-from chatnoir_api import Index
 
-chatnoir = ChatNoirRetrieve(staging=True, num_results=5, index=Index.MSMarcoV21, features=Feature.SNIPPET_TEXT)
+chatnoir = ChatNoirRetrieve(index="msmarco-document-v2.1", features=Feature.SNIPPET_TEXT)
 chatnoir.search("python library")
 ```
 
+### Features
+
+ChatNoir provides an extensive set of extra features, such as the full text or page rank / spam rank (for some indices).
+These can easily be included in the response data frame for usage in subsequent PyTerrier re-ranking stages like so:
+
+```python
+from chatnoir_pyterrier import ChatNoirRetrieve, Feature
+
+chatnoir_msmarco_snippet = ChatNoirRetrieve(index="msmarco-document-v2.1", features=Feature.SNIPPET_TEXT)
+chatnoir_msmarco_snippet.search("python library")
+
+chatnoir_cw09_page_spam_rank = ChatNoirRetrieve(index="clueweb09", features=Feature.PAGE_RANK | Feature.SPAM_RANK)
+chatnoir_cw09_page_spam_rank.search("python library")
+```
+
+### Advanced usage
+
 Please check out our [sample notebook](examples/search.ipynb) or [open it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search.ipynb).
+
+We also provide a hands-on guide for the Touché 2023 shared tasks [here](examples/search_touche_2023.ipynb).
 
 <!-- ## Citation
 
