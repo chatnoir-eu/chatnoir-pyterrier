@@ -15,6 +15,7 @@ Use the ChatNoir REST-API in PyTerrier for retrieval/re-ranking against large co
 Powered by the [`chatnoir-api`](https://pypi.org/project/chatnoir-api/) package.
 
 ## Installation
+
 Install the package from PyPI:
 
 ```shell
@@ -22,6 +23,7 @@ pip install chatnoir-pyterrier
 ```
 
 ## Usage
+
 You can use the `ChatNoirRetrieve` PyTerrier module in any PyTerrier pipeline, like you would do with `BatchRetrieve`.
 
 ```python
@@ -34,12 +36,7 @@ chatnoir.search("python library")
 
 Please check out our [sample notebook](examples/search.ipynb) or [open it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search.ipynb).
 
-### Touché 2023
-Are you participating in Touché 2023 [task 1](https://touche.webis.de/clef23/touche23-web/argument-retrieval-for-controversial-questions.html) or [task 2](https://touche.webis.de/clef23/touche23-web/evidence-retrieval-for-causal-questions.html)?
-We've prepared a [sample notebook](examples/search_touche_2023.ipynb) to show you how to retrieve from the ClueWeb22.
-Get started by [opening it in Google Colab](https://colab.research.google.com/github/chatnoir-eu/chatnoir-pyterrier/blob/main/examples/search_touche_2023.ipynb).
-
-## Citation
+<!-- ## Citation
 
 If you use this package, please cite the [paper](https://webis.de/publications.html#bevendorff_2018)
 from the [ChatNoir](https://github.com/chatnoir-eu) authors. 
@@ -58,7 +55,7 @@ You can use the following BibTeX information for citation:
   title =                 {{Elastic ChatNoir: Search Engine for the ClueWeb and the Common Crawl}},
   year =                  2018
 }
-```
+``` -->
 
 ## Development
 
@@ -70,7 +67,7 @@ pip install build setuptools wheel
 
 (On most systems, these packages are already pre-installed.)
 
-### Installation
+### Development installation
 
 Install package and test dependencies:
 
@@ -84,15 +81,15 @@ Configure the API keys for testing:
 
 ```shell
 export CHATNOIR_API_KEY="<API_KEY>"
-export CHATNOIR_API_KEY_STAGING="<API_KEY>"
 ```
 
 Verify your changes against the test suite to verify.
 
 ```shell
-flake8 chatnoir_pyterrier tests examples
-pylint -E chatnoir_pyterrier tests examples
-pytest chatnoir_pyterrier tests examples
+ruff check .                   # Code format and LINT
+mypy .                         # Static typing
+bandit -c pyproject.toml -r .  # Security
+pytest .                       # Unit tests
 ```
 
 Please also add tests for your newly developed code.
