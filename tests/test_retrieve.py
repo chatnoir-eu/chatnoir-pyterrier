@@ -10,12 +10,11 @@ def test_retrieve_hash(api_key: str):
     assert isinstance(retrieve_hash, int)
 
 
-def test_retrieve_query(api_key: str, query: str, index: Index, staging: bool):
+def test_retrieve_query(api_key: str, query: str, index: Index):
     retrieve = ChatNoirRetrieve(
         api_key=api_key,
         index=index,
         num_results=1,
-        staging=staging,
     )
     result = retrieve.search(query)
     assert result is not None
@@ -30,13 +29,11 @@ def test_retrieve_feature(
         api_key: str,
         query: str,
         feature: Feature,
-        staging: bool,
 ):
     retrieve = ChatNoirRetrieve(
         api_key=api_key,
         features=feature,
         num_results=1,
-        staging=staging,
     )
     result = retrieve.search(query)
     assert result is not None
