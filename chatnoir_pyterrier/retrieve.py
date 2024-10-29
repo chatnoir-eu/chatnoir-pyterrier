@@ -14,7 +14,6 @@ from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
 from pyterrier import Transformer
 from pyterrier.model import add_ranks
-from requests import HTTPError
 from tqdm import tqdm
 
 from chatnoir_pyterrier.feature import Feature
@@ -84,19 +83,13 @@ class ChatNoirRetrieve(Transformer):
         if Feature.CONTENTS in self.features:
             try:
                 row["contents"] = result.cache_contents(plain=False)
-            except HTTPError as e:
-                if e.errno == 404:
-                    row["text"] = None
-                else:
-                    raise e
+            except Exception:
+                row["contents"] = None
         if Feature.CONTENTS_PLAIN in self.features:
             try:
                 row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
-            except HTTPError as e:
-                if e.errno == 404:
-                    row["text"] = None
-                else:
-                    raise e
+            except Exception:
+                row["text"] = None
         if Feature.CONTENT_TYPE in self.features:
             row["content_type"] = result.content_type
         if Feature.LANGUAGE in self.features:
