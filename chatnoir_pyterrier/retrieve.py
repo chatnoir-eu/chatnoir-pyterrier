@@ -14,6 +14,7 @@ from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
 from pyterrier import Transformer
 from pyterrier.model import add_ranks
+from requests import HTTPError
 from tqdm import tqdm
 
 from chatnoir_pyterrier.feature import Feature
@@ -81,9 +82,21 @@ class ChatNoirRetrieve(Transformer):
                 raise RuntimeError(f"Unexpected response type: {type(result)}, expected: {type(ExplainedResult)}")
             row["explanation"] = result.explanation
         if Feature.CONTENTS in self.features:
-            row["contents"] = result.cache_contents(plain=False)
+            try:
+                row["contents"] = result.cache_contents(plain=False)
+            except HTTPError as e:
+                if e.errno == 404:
+                    row["text"] = None
+                else:
+                    raise e
         if Feature.CONTENTS_PLAIN in self.features:
-            row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
+            try:
+                row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
+            except HTTPError as e:
+                if e.errno == 404:
+                    row["text"] = None
+                else:
+                    raise e
         if Feature.CONTENT_TYPE in self.features:
             row["content_type"] = result.content_type
         if Feature.LANGUAGE in self.features:
