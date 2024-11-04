@@ -89,7 +89,7 @@ class ChatNoirRetrieve(Transformer):
             try:
                 row["text"] = row["contents_plain"] = result.cache_contents(plain=True)
             except Exception:
-                row["text"] = None
+                row["text"] = row["contents_plain"] = None
         if Feature.CONTENT_TYPE in self.features:
             row["content_type"] = result.content_type
         if Feature.LANGUAGE in self.features:
