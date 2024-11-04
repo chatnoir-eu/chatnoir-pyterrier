@@ -75,6 +75,27 @@ You can use the following BibTeX information for citation:
 }
 ``` -->
 
+### Experiments
+
+With chatnoir-pyterrier, it is easy to run benchmarks on a number of shared tasks that run on larger document collections.
+We demonstrate this by running ChatNoir retrieval on all suported TREC, CLEF, and NTCIR shared tasks available in ir_datasets.
+
+First install the experiment dependencies:
+
+```shell
+pip install -e .[experiment]
+```
+
+To run the experiments, first create the runs by running:
+
+```shell
+ray job submit --runtime-env examples/ray-runtime-env.yml --no-wait -- python examples/experiment.py 
+```
+
+This will create runs for each shared task in parallel and save it to a cache.
+
+After creating the runs, the [`experiment.ipynb`](examples/experiment.ipynb) notebook can be used to analyze the results.
+
 ## Development
 
 To build this package and contribute to its development you need to install the `build`, and `setuptools` and `wheel` packages:
