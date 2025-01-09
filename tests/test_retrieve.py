@@ -5,7 +5,9 @@ from chatnoir_pyterrier.retrieve import ChatNoirRetrieve, Feature
 
 
 def test_retrieve_hash(api_key: str):
-    retrieve = ChatNoirRetrieve(api_key)
+    retrieve = ChatNoirRetrieve(
+        api_key=api_key,
+    )
     retrieve_hash = hash(retrieve)
     assert isinstance(retrieve_hash, int)
 
@@ -26,9 +28,9 @@ def test_retrieve_query(api_key: str, query: str, index: Index):
 
 
 def test_retrieve_feature(
-        api_key: str,
-        query: str,
-        feature: Feature,
+    api_key: str,
+    query: str,
+    feature: Feature,
 ):
     retrieve = ChatNoirRetrieve(
         api_key=api_key,
