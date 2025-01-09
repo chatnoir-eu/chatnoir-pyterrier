@@ -241,7 +241,7 @@ class ChatNoirRetrieve(Transformer):
         return hash((
             self.api_key,
             (
-                tuple(sorted(self.index, key=lambda index: index.name))
+                tuple(sorted(self.index))
                 if isinstance(self.index, Set)
                 else self.index
             ),
