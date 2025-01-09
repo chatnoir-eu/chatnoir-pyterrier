@@ -4,11 +4,12 @@ from itertools import islice
 from typing import Set, Optional, Iterable, Union, Any, Dict
 
 from chatnoir_api import Index, Result, Slop, ExplainedResult
+from chatnoir_api.model import SearchMethod
 from chatnoir_api.v1 import (
     search, search_phrases
 )
 from chatnoir_api.defaults import (
-    DEFAULT_INDEX, DEFAULT_SLOP, DEFAULT_RETRIES, DEFAULT_BACKOFF_SECONDS, DEFAULT_API_KEY
+    DEFAULT_INDEX, DEFAULT_SLOP, DEFAULT_RETRIES, DEFAULT_BACKOFF_SECONDS, DEFAULT_API_KEY, DEFAULT_SEARCH_METHOD
 )
 from pandas import DataFrame
 from pandas.core.groupby import DataFrameGroupBy
@@ -35,13 +36,14 @@ class ChatNoirRetrieve(Transformer):
     backoff_seconds: float = DEFAULT_BACKOFF_SECONDS
     verbose: bool = False
     api_key: str = DEFAULT_API_KEY
+    search_method: SearchMethod = DEFAULT_SEARCH_METHOD
 
     def _merge_result(
-            self,
-            row: Dict[str, Any],
-            result: Union[
-                Result, ExplainedResult,
-            ]
+        self,
+        row: Dict[str, Any],
+        result: Union[
+            Result, ExplainedResult,
+        ]
     ) -> Dict[str, Any]:
         row = {
             **row,
@@ -135,6 +137,7 @@ class ChatNoirRetrieve(Transformer):
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
                     api_key=self.api_key,
+                    search_method=self.search_method
                 ).results
             else:
                 results = search(
@@ -147,6 +150,7 @@ class ChatNoirRetrieve(Transformer):
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
                     api_key=self.api_key,
+                    search_method=self.search_method
                 ).results
         else:
             if explain:
@@ -161,6 +165,7 @@ class ChatNoirRetrieve(Transformer):
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
                     api_key=self.api_key,
+                    search_method=self.search_method
                 ).results
             else:
                 results = search_phrases(
@@ -174,6 +179,7 @@ class ChatNoirRetrieve(Transformer):
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
                     api_key=self.api_key,
+                    search_method=self.search_method
                 ).results
 
         if self.filter_unknown:
