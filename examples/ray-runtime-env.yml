@@ -4,6 +4,7 @@ excludes:
   - data/
   - dist/
   - "*.egg-info/"
+  - "*.ipynb_checkpoints/"
   - venv/
   - .venv/
   - __pycache__/
@@ -11,8 +12,8 @@ excludes:
 pip:
 - pandas
 - pyterrier-t5 @ git+https://github.com/terrierteam/pyterrier_t5.git@8caa9a28e6cd102c8e294a6a01a42a6ff8e41c76
-- pyterrier-caching~=0.1.1
+- pyterrier-caching~=0.3.0
 - python-dotenv
 - python-terrier~=0.11.0
-- chatnoir-api~=3.1.2
-- chatnoir-pyterrier~=3.0.2
+- chatnoir-api~=3.2.0
+- chatnoir-pyterrier~=3.1.2
