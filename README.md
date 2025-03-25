@@ -96,6 +96,10 @@ This will create runs for each shared task in parallel and save it to a cache.
 
 After creating the runs, the [`experiment.ipynb`](examples/experiment.ipynb) notebook can be used to analyze the results.
 
+## Indexing
+
+Head over to the [ChatNoir `ir_datasets` indexer](https://github.com/chatnoir-eu/chatnoir-ir-datasets-indexer) to learn more on how new `ir_datasets`-compatible datasets are indexed into ChatNoir.
+
 ## Development
 
 To build this package and contribute to its development you need to install the `build`, and `setuptools` and `wheel` packages:
