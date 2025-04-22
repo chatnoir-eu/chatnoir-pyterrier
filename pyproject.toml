@@ -88,7 +88,7 @@ exclude_dirs = [
 skips = ["**/test_*.py", "**/conftest.py"]
 
 [tool.pytest.ini_options]
-log_cli = "True"
+log_cli = true
 filterwarnings = [
     'ignore::DeprecationWarning',
 ]
