@@ -40,7 +40,7 @@ tests = [
 ]
 experiment = [
     # "pyterrier-t5 @ git+https://github.com/terrierteam/pyterrier_t5.git@8caa9a28e6cd102c8e294a6a01a42a6ff8e41c76",
-    "pyterrier-caching>=0.3,<0.6",
+    "pyterrier-caching~=0.6",
     "python-dotenv~=1.0",
     "ray[default]~=2.38",
 ]
