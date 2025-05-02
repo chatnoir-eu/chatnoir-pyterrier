@@ -27,9 +27,9 @@ pip install chatnoir-pyterrier
 You can use the `ChatNoirRetrieve` PyTerrier module in any PyTerrier pipeline, like you would do with `BatchRetrieve`.
 
 ```python
-from chatnoir_pyterrier import ChatNoirRetrieve, Feature
+from chatnoir_pyterrier import ChatNoirRetrieve
 
-chatnoir = ChatNoirRetrieve(index="msmarco-document-v2.1", features=Feature.SNIPPET_TEXT)
+chatnoir = ChatNoirRetrieve(index="msmarco-document-v2.1")
 chatnoir.search("python library")
 ```
 
@@ -47,6 +47,20 @@ chatnoir_msmarco_snippet.search("python library")
 chatnoir_cw09_page_spam_rank = ChatNoirRetrieve(index="clueweb09", features=Feature.PAGE_RANK | Feature.SPAM_RANK)
 chatnoir_cw09_page_spam_rank.search("python library")
 ```
+
+### Caching
+
+We recommend wrapping `ChatNoirRetrieve` in a `RetrieverCache`, using the [pyterrier-caching](https://github.com/terrierteam/pyterrier-caching) library:
+
+```python
+from chatnoir_pyterrier import ChatNoirRetrieve
+from pyterrier_caching import RetrieverCache
+
+chatnoir = ChatNoirRetrieve(index="msmarco-document-v2.1")
+cached_chatnoir = RetrieverCache("path/to/cache", chatnoir)
+```
+
+This way, the ChatNoir API is called only once per query, and subsequent experiments can use the cached results. Refer to the [pyterrier-caching documentation](https://pyterrier.readthedocs.io/en/latest/ext/pyterrier-caching/retriever-cache.html) for more details on how the caching works.
 
 ### Advanced usage
 
