@@ -20,11 +20,11 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 dependencies = [
-    "chatnoir-api~=3.2.0",
+    "chatnoir-api~=3.3.0",
     "importlib-metadata~=8.5",
     "pandas~=2.0",
-    "python-terrier~=0.11",
-    "typing-extensions~=4.12",
+    "python-terrier~=0.13.1",
+    "typing-extensions~=4.13",
 ]
 dynamic = ["version"]
 
