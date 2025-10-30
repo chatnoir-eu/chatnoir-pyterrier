@@ -28,12 +28,18 @@ def query(request) -> str:
 @fixture(
     scope="module",
     params=[
+        "clueweb09",
         "clueweb12",
         "clueweb22/b",
+        "msmarco-document",
+        "msmarco-passage",
+        "msmarco-document-v2",
+        "msmarco-passage-v2",
         "msmarco-document-v2.1",
         "msmarco-passage-v2.1",
         "trec-tot/2024",
-        # "vaswani",
+        "longeval-sci/2024-11",
+        "wows-owi/2025",
     ]
 )
 def index(request) -> Index:
