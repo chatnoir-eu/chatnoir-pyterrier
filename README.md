@@ -8,7 +8,7 @@
 [![Downloads](https://img.shields.io/pypi/dm/chatnoir-pyterrier?style=flat-square)](https://pypi.org/project/chatnoir-pyterrier/)
 [![License](https://img.shields.io/github/license/chatnoir-eu/chatnoir-pyterrier?style=flat-square)](LICENSE)
 
-# 🔍 chatnoir-pyterrier
+# ![🔍](https://www.chatnoir.eu/static/ui/img/chatnoir-icon%4032x32.png) chatnoir-pyterrier
 
 Use the ChatNoir REST-API in PyTerrier for retrieval/re-ranking against large corpora such as ClueWeb09, ClueWeb12, ClueWeb22, or MS MARCO.
 
