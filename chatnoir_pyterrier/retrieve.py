@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from functools import reduce
 from itertools import islice
-from typing import Set, Optional, Iterable, Union, Any, Dict
+from typing import Set, Optional, Iterable, Union, Any, Dict, Hashable
 
 from chatnoir_api import Index, Result, Slop, ExplainedResult
 from chatnoir_api.model import SearchMethod
@@ -40,11 +40,11 @@ class ChatNoirRetrieve(Transformer):
 
     def _merge_result(
         self,
-        row: Dict[str, Any],
+        row: Dict[Hashable, Any],
         result: Union[
             Result, ExplainedResult,
         ]
-    ) -> Dict[str, Any]:
+    ) -> Dict[Hashable, Any]:
         row = {
             **row,
             "docno": result.trec_id,
@@ -102,7 +102,7 @@ class ChatNoirRetrieve(Transformer):
         if len(topic.index) != 1:
             raise RuntimeError("Can only transform one query at a time.")
 
-        row: Dict[str, Any] = topic.to_dict(orient="records")[0]
+        row: Dict[Hashable, Any] = topic.to_dict(orient="records")[0]
         query: str = row["query"]
 
         page_size: int
@@ -132,7 +132,6 @@ class ChatNoirRetrieve(Transformer):
                     index=self.index,
                     minimal=False,
                     explain=True,
-                    extended_meta=False,
                     page_size=page_size,
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
@@ -145,7 +144,6 @@ class ChatNoirRetrieve(Transformer):
                     index=self.index,
                     minimal=False,
                     explain=False,
-                    extended_meta=False,
                     page_size=page_size,
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
@@ -160,7 +158,6 @@ class ChatNoirRetrieve(Transformer):
                     minimal=False,
                     slop=self.slop,
                     explain=True,
-                    extended_meta=False,
                     page_size=page_size,
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
@@ -174,7 +171,6 @@ class ChatNoirRetrieve(Transformer):
                     minimal=False,
                     slop=self.slop,
                     explain=False,
-                    extended_meta=False,
                     page_size=page_size,
                     retries=self.retries,
                     backoff_seconds=self.backoff_seconds,
@@ -199,18 +195,18 @@ class ChatNoirRetrieve(Transformer):
             for result in results
         ])
 
-    def transform(self, topics: DataFrame) -> DataFrame:
+    def transform(self, inp: DataFrame) -> DataFrame:
 
-        if not isinstance(topics, DataFrame):
+        if not isinstance(inp, DataFrame):
             raise RuntimeError("Can only transform dataframes.")
 
-        if not {'qid', 'query'}.issubset(topics.columns):
+        if not {'qid', 'query'}.issubset(inp.columns):
             raise RuntimeError("Needs qid and query columns.")
 
-        if len(topics) == 0:
-            return self._transform_query(topics)
+        if len(inp) == 0:
+            return self._transform_query(inp)
 
-        topics_by_query: DataFrameGroupBy = topics.groupby(
+        topics_by_query: DataFrameGroupBy = inp.groupby(
             by=["qid"],
             as_index=False,
             sort=False,
