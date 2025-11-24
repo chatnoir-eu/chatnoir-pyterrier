@@ -23,7 +23,7 @@ dependencies = [
     "chatnoir-api~=3.3",
     "importlib-metadata~=8.5",
     "pandas~=2.0",
-    "python-terrier~=0.13.1",
+    "python-terrier>=0.13.1,<1.1.0",
     "typing-extensions~=4.13",
 ]
 dynamic = ["version"]
